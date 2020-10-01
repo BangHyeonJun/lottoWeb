@@ -12,22 +12,43 @@ function Home() {
 	const [txts, setTxts] = useState([
 		{
 			id: 1,
-			txt: "2등 당첨 신화의",
+			txt: [
+				{
+					text: "2등 당첨",
+					styles: { color: "#e03131", fontSize: "30px" },
+				},
+				{
+					text: " 신화의",
+				},
+			],
 			isActive: false,
 		},
 		{
 			id: 2,
-			txt: "빅데이터 분석가와",
+			txt: [
+				{
+					text: "빅데이터 분석가와",
+				},
+			],
 			isActive: false,
 		},
 		{
 			id: 3,
-			txt: "AI 인공지능 개발자가",
+			txt: [
+				{
+					text: "AI 인공지능 개발자가",
+				},
+			],
 			isActive: false,
 		},
 		{
 			id: 4,
-			txt: "만났다",
+			txt: [
+				{
+					text: "만났다",
+					styles: { color: "#e03131", fontSize: "30px" },
+				},
+			],
 			isActive: false,
 		},
 	]);
@@ -35,15 +56,8 @@ function Home() {
 	const [cnt, setCnt] = useState(0);
 
 	useEffect(() => {
-		setTimeout(() => {
-			setCnt(1);
-		}, 250);
-	}, []);
-
-	useEffect(() => {
 		if (cnt <= txts.length) {
 			setTimeout(() => {
-				console.log("하이", cnt, JSON.stringify(txts));
 				setTxts((old) =>
 					old.map((txt) =>
 						txt.id === cnt
@@ -55,7 +69,7 @@ function Home() {
 					)
 				);
 				setCnt((old) => old + 1);
-			}, 850);
+			}, 350);
 		}
 	}, [cnt]);
 
@@ -74,7 +88,11 @@ function Home() {
 								active: txt.isActive,
 							})}
 						>
-							<span>{txt.txt}</span>
+							{txt.txt.map((txt2, ttIdx2) => (
+								<span style={txt2.styles || {}}>
+									{txt2.text}
+								</span>
+							))}
 						</div>
 					))}
 				</div>
