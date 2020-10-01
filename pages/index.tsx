@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { NextPage, NextPageContext } from "next";
+import MobileDetect from "mobile-detect";
+import { isMobile } from "react-device-detect";
 
 // 컴포넌트
 import Layout from "./components/Layout/Layout";
@@ -8,7 +12,12 @@ import classNames from "classnames/bind";
 import styles from "./index.module.scss";
 const cx = classNames.bind(styles);
 
-function Home() {
+interface IProps {
+	isMobile: boolean;
+}
+
+function Home({ isMobile }) {
+	const router = useRouter();
 	const [txts, setTxts] = useState([
 		{
 			id: 1,
@@ -54,6 +63,18 @@ function Home() {
 	]);
 
 	const [cnt, setCnt] = useState(0);
+	const [end, setEnd] = useState(false);
+
+	useEffect(() => {
+		if (!isMobile) {
+			setTimeout(() => {
+				setEnd(true);
+				setTimeout(() => {
+					router.replace("/main");
+				}, 1000);
+			}, 3500);
+		}
+	}, []);
 
 	useEffect(() => {
 		if (cnt <= txts.length) {
@@ -75,7 +96,7 @@ function Home() {
 
 	return (
 		<Layout>
-			<div className={cx("wrap")}>
+			<div className={cx("wrap", { active: end })}>
 				<div className={cx("container")}>
 					<div className={cx("title-box")}>
 						<span className={cx("active")}>로또</span>
@@ -100,4 +121,17 @@ function Home() {
 		</Layout>
 	);
 }
+
+Home.getInitialProps = async (ctx: NextPageContext) => {
+	let mobile;
+
+	if (ctx.req) {
+		const md = new MobileDetect(ctx.req.headers["user-agent"]);
+		mobile = !!md.mobile();
+	} else {
+		mobile = isMobile;
+	}
+	return { isMobile: mobile };
+};
+
 export default Home;
