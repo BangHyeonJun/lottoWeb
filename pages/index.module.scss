@@ -5,20 +5,119 @@ $header-height: 200px;
 .wrap {
 	width: 100%;
 	height: 100%;
-	background: rgb(243, 240, 255);
-	background: linear-gradient(
-		0deg,
-		rgba(243, 240, 255, 1) 0%,
-		rgba(151, 117, 250, 1) 86%,
-		rgba(121, 80, 242, 1) 100%
-	);
 	display: flex;
 	flex-direction: column;
-	overflow: auto;
+	align-items: center;
+	justify-content: center;
 }
 
 .container {
 	width: 100%;
+	max-width: 350px;
+}
+
+@keyframes titleAnimation {
+	0% {
+		opacity: 0;
+		transform: translate(-100%, 0px);
+	}
+
+	3% {
+		opacity: 1;
+	}
+
+	20% {
+		opacity: 1;
+		transform: translate(3%, 0px);
+	}
+
+	40% {
+		opacity: 1;
+		transform: translate(-3%, 0px);
+	}
+
+	60% {
+		opacity: 1;
+		transform: translate(3%, 0px);
+	}
+
+	80% {
+		opacity: 1;
+		transform: translate(-3%, 0px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translate(0%, 0px);
+	}
+}
+
+.title-box {
+	width: 100%;
+	margin-bottom: 44px;
+	font-family: "DXSpdM";
+	font-size: 36px;
+	letter-spacing: 14px;
+	text-align: center;
+	// opacity: 0;
+	// transform: translate(-100%, 0px);
+	animation-delay: 3.5s;
+	animation-duration: 450ms;
+	animation-name: titleAnimation;
+	animation-fill-mode: both;
+
+	.active {
+		color: #e03131;
+	}
+}
+
+.text-box {
+	width: 100%;
+	height: 50px;
+	position: relative;
+	font-family: "DXSpdM";
+	font-size: 26px;
+	padding: 0px 20px;
+
+	&::before {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 30px;
+		top: 50%;
+		left: calc(0% + 10px);
+		transform: translate(0%, -50%);
+		background-color: #000;
+		clip-path: polygon(3% 0%, 100% 0%, 100% 100%, 0% 100%);
+		opacity: 1;
+		transition: all 200ms ease-in;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		width: 100%;
+		height: 32px;
+		top: 50%;
+		left: calc(0% + 20px);
+		transform: translate(0%, -50%);
+		background-color: #fff;
+		clip-path: polygon(3% 0%, 100% 0%, 100% 100%, 0% 100%);
+		transition: all 200ms ease-in;
+	}
+
+	&.active {
+		&::before {
+			content: "";
+			opacity: 0;
+			left: calc(100% + 10px);
+		}
+
+		&::after {
+			content: "";
+			left: calc(100% + 20px);
+		}
+	}
 }
 
 .header_wrap {
